@@ -1,6 +1,6 @@
 // nextjs 는 pages dir 하위 dir 이 URL 이 됨
 
-import Item from '@/component/Item';
+import Item from '@/components/Item';
 
 // 반드시 `export default` 를 붙여야함
 export default function List() {
@@ -15,8 +15,8 @@ export default function List() {
       <div className="mx-[20px] my-auto w-[200px] bg-white text-black p-[20px] rounded-[5px] mt-2">
         <h4>상품2 $40</h4>
       </div> */}
-      {items.map((item) => (
-        <Item key={item} name={item} price={40} />
+      {items.map((item, index) => (
+        <Item key={item} imgSrc={`/food${index}.png`} name={item} price={40} />
       ))}
     </div>
   );

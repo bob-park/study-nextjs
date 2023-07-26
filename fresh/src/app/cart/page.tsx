@@ -1,8 +1,11 @@
+import CartItem from '@/components/CartItem';
+
 // homework
 export default function Cart() {
   return (
     <div>
-      <h1>장바구니 입니다.</h1>
+      <h4 className="font-bold text-center mt-10">Cart</h4>
+      <CartItem />
     </div>
   );
 }
