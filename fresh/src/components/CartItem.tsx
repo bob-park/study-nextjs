@@ -1,3 +1,5 @@
+import CartButton from './CartButton';
+
 type CartItemProps = {
   name: string;
   price: number;
@@ -10,6 +12,9 @@ export default function CartItem({ name, price, count }: CartItemProps) {
       <p>{name}</p>
       <p>${price}</p>
       <p>{count}개</p>
+      <p>
+        <CartButton color="blue" />
+      </p>
     </div>
   );
 }
