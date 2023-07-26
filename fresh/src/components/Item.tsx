@@ -1,7 +1,10 @@
+'use client';
+
 import Image from 'next/image';
 
 // img
 import TomatoImg from '/public/food0.png';
+import { useState } from 'react';
 
 type ItemProps = {
   imgSrc?: string;
@@ -20,8 +23,10 @@ type ItemProps = {
  *
  * */
 export default function Item({ imgSrc, name, price }: ItemProps) {
+  const [count, setCount] = useState<number>(0);
+
   return (
-    <div className="mx-[20px] my-auto w-[200px] bg-white text-black p-[20px] rounded-[5px] mt-2">
+    <div className="mx-auto my-[20px] w-[200px] bg-white text-black p-[20px] rounded-[5px] mt-2">
       {imgSrc && <img className="w-full h-auto" src={imgSrc} />}
 
       {/* {imgSrc && <Image className="w-full h-auto" src={TomatoImg} />} */}
@@ -36,6 +41,20 @@ export default function Item({ imgSrc, name, price }: ItemProps) {
       <h4>
         {name} ${price}
       </h4>
+      <span> {count} </span>
+      <button className="w-5 bg-gray-300" onClick={() => setCount(count + 1)}>
+        +
+      </button>
+      <button
+        className="ml-1 w-5 bg-gray-300"
+        onClick={() =>
+          setCount((prev) => {
+            return prev <= 0 ? 0 : prev - 1;
+          })
+        }
+      >
+        -
+      </button>
     </div>
   );
 }
