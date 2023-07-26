@@ -31,13 +31,16 @@ import Hello from '@/components/Hello';
  *
  */
 export default function Cart() {
+  let carts = ['Tomatoes', 'Pasta'];
+
   return (
     <>
       <Hello />
       <div>
         <h4 className="font-bold text-center mt-10">Cart {age}</h4>
-        <CartItem />
-        <CartItem />
+        {carts.map((cart) => (
+          <CartItem key={cart} name={cart} price={40} count={1} />
+        ))}
       </div>
     </>
   );
