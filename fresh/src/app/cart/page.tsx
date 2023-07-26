@@ -1,6 +1,7 @@
 import CartItem from '@/components/CartItem';
 
 import { age } from './data';
+import Hello from '@/components/Hello';
 
 /**
  *
@@ -31,10 +32,13 @@ import { age } from './data';
  */
 export default function Cart() {
   return (
-    <div>
-      <h4 className="font-bold text-center mt-10">Cart {age}</h4>
-      <CartItem />
-      <CartItem />
-    </div>
+    <>
+      <Hello />
+      <div>
+        <h4 className="font-bold text-center mt-10">Cart {age}</h4>
+        <CartItem />
+        <CartItem />
+      </div>
+    </>
   );
 }
