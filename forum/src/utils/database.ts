@@ -26,5 +26,16 @@ if (process.env.NODE_ENV === 'development') {
   clientPromise = client.connect();
 }
 
-export { client };
+// * js 에서 좀 늦게 처리되는 코드는 선언하여 기다리지 않고 처리하게 할 수 있음
+// * 근데 `await` 키워드를 붙이면 실행을 기달림
+// * Promise<T> 가 선언된 녀석만 가능
+async function findAll(dbName: string, collectionName: string) {
+  return (await clientPromise)
+    .db(dbName)
+    .collection(collectionName)
+    .find()
+    .toArray();
+}
+
+export { findAll };
 export default clientPromise;
