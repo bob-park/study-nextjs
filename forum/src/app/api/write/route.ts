@@ -5,14 +5,21 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(req: NextRequest) {
   const { title, content } = await req.json();
 
-  const db = (await client).db('forum');
+  if (!title || !content) {
+    return NextResponse.json({ error: 'Bad request.' }, { status: 400 });
+  }
 
-  const collection = db.collection('post');
+  try {
+    const db = (await client).db('forum');
+    const collection = db.collection('post');
 
-  await collection.insertOne({
-    title,
-    content,
-  });
+    await collection.insertOne({
+      title,
+      content,
+    });
 
-  return NextResponse.json({ result: 'success' }, { status: 201 });
+    return NextResponse.json({ result: 'success' }, { status: 201 });
+  } catch (err) {
+    return NextResponse.json({ error: '서버 이상함' }, { status: 500 });
+  }
 }

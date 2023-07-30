@@ -22,38 +22,34 @@ export default function Write() {
   };
 
   return (
-    <div className="">
-      <h4>글작성</h4>
+    <div className="p-[20px]">
+      <h4 className="font-extrabold text-3xl mb-[20px]">글작성</h4>
       <form
-        className="grid grid-col-1 gap-5"
+        // className="grid grid-col-1 gap-5"
         action="/api/write"
         onSubmit={handleWrite}
       >
         <div>
-          <label className="pr-10" htmlFor="title">
-            title
-          </label>
           <input
+            className="box-border p-[10px] block mb-[10px] border"
             type="text"
-            id="title"
-            name="title"
             value={title}
+            placeholder="글 제목"
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
         <div>
-          <label className="pr-10" htmlFor="content">
-            content
-          </label>
           <input
+            className="box-border p-[10px] block mb-[10px] border"
             type="text"
-            id="content"
-            name="content"
             value={content}
+            placeholder="글 내용"
             onChange={(e) => setContent(e.target.value)}
           />
         </div>
-        <button type="submit">버튼</button>
+        <button className="bg-gray-300 p-[10px] rounded-lg" type="submit">
+          버튼
+        </button>
       </form>
     </div>
   );
