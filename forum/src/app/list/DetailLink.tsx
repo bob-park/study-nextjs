@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 
 import { ListItem } from '@/components/List';
+import Link from 'next/link';
 
 type DetailLinkProps = {
   id: string;
@@ -26,11 +27,17 @@ type DetailLinkProps = {
 export default function DetailLink({ id, title, content }: DetailLinkProps) {
   const router = useRouter();
 
+  // handle
+  const handleEdit = () => {
+    router.push(`/edit/${id}`);
+  };
+
   return (
     <ListItem
       title={title}
       content={content}
       onClick={() => router.push(`/detail/${id}`)}
+      onEdit={handleEdit}
     />
   );
 }

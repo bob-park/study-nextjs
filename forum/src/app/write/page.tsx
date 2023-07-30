@@ -31,7 +31,7 @@ export default function Write() {
       >
         <div>
           <input
-            className="box-border p-[10px] block mb-[10px] border"
+            className="box-border p-[10px] block mb-[10px] border rounded-xl"
             type="text"
             value={title}
             placeholder="글 제목"
@@ -40,7 +40,7 @@ export default function Write() {
         </div>
         <div>
           <input
-            className="box-border p-[10px] block mb-[10px] border"
+            className="box-border p-[10px] block mb-[10px] border rounded-xl"
             type="text"
             value={content}
             placeholder="글 내용"
