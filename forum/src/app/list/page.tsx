@@ -1,8 +1,6 @@
-import Link from 'next/link';
-
 import { findAll } from '@/utils/database';
 
-import { ListItem } from '@/components/List';
+import DetailLink from './DetailLink';
 
 export default async function List() {
   let result = await findAll('forum', 'post');
@@ -10,9 +8,12 @@ export default async function List() {
   return (
     <div className="bg-gray-100 p-[10px]">
       {result.map((item) => (
-        <Link key={`list_item_${item._id}`} href={`/detail/${item._id}`}>
-          <ListItem title={item.title} content={item.content} />
-        </Link>
+        <DetailLink
+          key={`list_item_${item._id}`}
+          id={item._id.toString()}
+          title={item.title}
+          content={item.content}
+        />
       ))}
     </div>
   );

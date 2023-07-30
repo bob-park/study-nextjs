@@ -7,14 +7,14 @@ type ListItemProps = {
 
 function List() {}
 
-function ListItem({
-  title,
-  content,
-}: ListItemProps & React.HTMLAttributes<HTMLDivElement>) {
+function ListItem(props: ListItemProps & React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className="bg-white rounded-md p-[10px] mb-[5px] shadow-sm shadow-white">
-      <h4 className="text-xl font-extrabold">{title}</h4>
-      <p className="text-gray-400 my-[5px]">{content}</p>
+    <div
+      className="bg-white rounded-md p-[10px] mb-[5px] shadow-sm shadow-white"
+      {...props}
+    >
+      <h4 className="text-xl font-extrabold">{props.title}</h4>
+      <p className="text-gray-400 my-[5px]">{props.content}</p>
     </div>
   );
 }
