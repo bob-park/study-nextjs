@@ -6,7 +6,7 @@ type ListItemProps = {
   title: string;
   content?: string;
   onEdit?: () => void;
-  onRemove?: () => void;
+  onRemove?: (e: MouseEvent<HTMLButtonElement>) => void;
 };
 
 function List() {}
@@ -23,13 +23,15 @@ function ListItem(props: ListItemProps & React.HTMLAttributes<HTMLDivElement>) {
   const handleRemove = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
 
-    onRemove && onRemove();
+    onRemove && onRemove(e);
   };
 
   return (
     <div
-      className="bg-white rounded-md p-[10px] mb-[5px] shadow-sm shadow-white"
-      {...{ onClick: props.onClick }}
+      {...{
+        onClick: props.onClick,
+        className: `bg-white rounded-md p-[10px] mb-[5px] shadow-sm shadow-white ${props.className}`,
+      }}
     >
       <h4 className="text-xl font-extrabold">{props.title}</h4>
       <p className="text-gray-400 my-[5px]">{props.content}</p>

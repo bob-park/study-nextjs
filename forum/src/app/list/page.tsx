@@ -22,6 +22,7 @@ export default async function List() {
           id: item._id.toString(),
           title: item.title,
           content: item.content,
+          isRemove: false,
         }))}
       />
     </div>

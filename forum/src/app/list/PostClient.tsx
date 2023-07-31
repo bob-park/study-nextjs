@@ -3,12 +3,13 @@
 import { useRouter } from 'next/navigation';
 
 import { ListItem } from '@/components/List';
-import { useState } from 'react';
+import { MouseEvent, useState } from 'react';
 
 type Post = {
   id: string;
   title: string;
   content?: string;
+  isRemove: boolean;
 };
 
 type PostClientProps = {
@@ -34,13 +35,29 @@ export default function PostClient({ contents }: PostClientProps) {
   const [posts, setPosts] = useState<Post[]>(contents);
 
   // handle
-  const handleRemove = async (id: string) => {
+  const handleRemove = async (id: string, e: MouseEvent<HTMLButtonElement>) => {
     try {
       await fetch(`/api/post/${id}`, {
         method: 'delete',
       }).then((res) => {
         setPosts((prev) => {
-          const newPosts = prev.filter((newPost) => newPost.id !== id);
+          const newPosts = prev.slice();
+
+          const findIndex = newPosts.findIndex((item) => item.id === id);
+
+          if (findIndex >= 0) {
+            newPosts[findIndex] = {
+              ...newPosts[findIndex],
+              isRemove: true,
+            };
+          }
+
+          setTimeout(() => {
+            const eventTarget = e.target as HTMLElement;
+            const parentElement = eventTarget.parentElement as HTMLElement;
+
+            parentElement.style.display = 'none';
+          }, 1_000);
 
           return newPosts;
         });
@@ -55,12 +72,14 @@ export default function PostClient({ contents }: PostClientProps) {
       {posts.map((item) => (
         <ListItem
           key={`post_client_item_${item.id}`}
-          className="transition-opacity"
+          className={`transition-opacity duration-1000 ${
+            item.isRemove ? 'opacity-0' : 'opacity-100'
+          }`}
           title={item.title}
           content={item.content}
           onClick={() => router.push(`/detail/${item.id}`)}
           onEdit={() => router.push(`/edit/${item.id}`)}
-          onRemove={() => handleRemove(item.id)}
+          onRemove={(e) => handleRemove(item.id, e)}
         />
       ))}
     </div>
