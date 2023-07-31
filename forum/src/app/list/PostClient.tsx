@@ -3,12 +3,15 @@
 import { useRouter } from 'next/navigation';
 
 import { ListItem } from '@/components/List';
-import Link from 'next/link';
 
-type DetailLinkProps = {
+type Post = {
   id: string;
   title: string;
   content?: string;
+};
+
+type PostClientProps = {
+  contents: Post[];
 };
 
 /**
@@ -24,20 +27,20 @@ type DetailLinkProps = {
  * @param param0
  * @returns
  */
-export default function DetailLink({ id, title, content }: DetailLinkProps) {
+export default function PostClient({ contents }: PostClientProps) {
   const router = useRouter();
 
-  // handle
-  const handleEdit = () => {
-    router.push(`/edit/${id}`);
-  };
-
   return (
-    <ListItem
-      title={title}
-      content={content}
-      onClick={() => router.push(`/detail/${id}`)}
-      onEdit={handleEdit}
-    />
+    <div>
+      {contents.map((item) => (
+        <ListItem
+          key={`post_client_item_${item.id}`}
+          title={item.title}
+          content={item.content}
+          onEdit={() => router.push(`/edit/${item.id}`)}
+          onClick={() => router.push(`/detail/${item.id}`)}
+        />
+      ))}
+    </div>
   );
 }
