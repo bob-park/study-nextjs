@@ -25,6 +25,10 @@ export default function RootLayout({
           <Link href="/list" className="mr-[10px] font-bold text-black">
             List
           </Link>
+
+          <Link href="/write" className="mr-[10px] font-bold text-black">
+            글쓰기
+          </Link>
         </div>
         {children}
       </body>

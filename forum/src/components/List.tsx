@@ -6,17 +6,24 @@ type ListItemProps = {
   title: string;
   content?: string;
   onEdit?: () => void;
+  onRemove?: () => void;
 };
 
 function List() {}
 
 function ListItem(props: ListItemProps & React.HTMLAttributes<HTMLDivElement>) {
-  const { onEdit } = props;
+  const { onEdit, onRemove } = props;
 
   const handleEdit = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
 
     onEdit && onEdit();
+  };
+
+  const handleRemove = (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+
+    onRemove && onRemove();
   };
 
   return (
@@ -32,6 +39,14 @@ function ListItem(props: ListItemProps & React.HTMLAttributes<HTMLDivElement>) {
           onClick={handleEdit}
         >
           EDIT
+        </button>
+      )}
+      {onRemove && (
+        <button
+          className="ml-[10px] p-[10px] bg-gray-300 rounded-lg"
+          onClick={handleRemove}
+        >
+          REMOVE
         </button>
       )}
     </div>

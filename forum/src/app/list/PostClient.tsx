@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 
 import { ListItem } from '@/components/List';
+import { useState } from 'react';
 
 type Post = {
   id: string;
@@ -30,15 +31,36 @@ type PostClientProps = {
 export default function PostClient({ contents }: PostClientProps) {
   const router = useRouter();
 
+  const [posts, setPosts] = useState<Post[]>(contents);
+
+  // handle
+  const handleRemove = async (id: string) => {
+    try {
+      await fetch(`/api/post/${id}`, {
+        method: 'delete',
+      }).then((res) => {
+        setPosts((prev) => {
+          const newPosts = prev.filter((newPost) => newPost.id !== id);
+
+          return newPosts;
+        });
+      });
+    } catch (err) {
+      throw err;
+    }
+  };
+
   return (
     <div>
-      {contents.map((item) => (
+      {posts.map((item) => (
         <ListItem
           key={`post_client_item_${item.id}`}
+          className="transition-opacity"
           title={item.title}
           content={item.content}
-          onEdit={() => router.push(`/edit/${item.id}`)}
           onClick={() => router.push(`/detail/${item.id}`)}
+          onEdit={() => router.push(`/edit/${item.id}`)}
+          onRemove={() => handleRemove(item.id)}
         />
       ))}
     </div>

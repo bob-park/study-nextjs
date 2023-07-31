@@ -5,7 +5,7 @@ import PostClient from './PostClient';
 
 /**
  *
- * ! 문제가 있네... mongodb 에서 값이 바로 적용되는데 이게 caching 하고 있는지 바로 적용이 안된다
+ * ! 문제가 있네... mongodb 에서 값이 바로 적용되는데 이게 next page 에서 caching 하고 있는지 바로 적용이 안된다
  *
  * @returns
  *
