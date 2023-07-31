@@ -43,7 +43,7 @@ function ListItem(props: ListItemProps & React.HTMLAttributes<HTMLDivElement>) {
       )}
       {onRemove && (
         <button
-          className="ml-[10px] p-[10px] bg-gray-300 rounded-lg"
+          className="ml-[10px] p-[10px] bg-red-400 rounded-lg"
           onClick={handleRemove}
         >
           REMOVE
