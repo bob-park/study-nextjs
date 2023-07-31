@@ -1,8 +1,11 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 
 export default function Write() {
+  const router = useRouter();
+
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
 
@@ -17,7 +20,9 @@ export default function Write() {
         content,
       }),
     })
-      .then((res) => res.body)
+      .then((res) => {
+        router.push('/list');
+      })
       .catch((err) => console.error(err));
   };
 
