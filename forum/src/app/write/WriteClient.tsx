@@ -28,7 +28,6 @@ export default function WriteClient({ email }: WwriteClientProps) {
       body: JSON.stringify({
         title,
         content,
-        email,
       }),
     })
       .then((res) => {

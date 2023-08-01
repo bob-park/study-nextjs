@@ -1,11 +1,20 @@
 import client from '@/utils/database';
+import { getServerSession } from 'next-auth';
 
 import { NextRequest, NextResponse } from 'next/server';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { getSession } from 'next-auth/react';
 
 export async function POST(req: NextRequest) {
-  const { title, content, email } = await req.json();
+  let session = await getServerSession(authOptions);
 
-  if (!title || !content || !email) {
+  if (!session || !session.user) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const { title, content } = await req.json();
+
+  if (!title || !content) {
     return NextResponse.json({ error: 'Bad request.' }, { status: 400 });
   }
 
@@ -16,7 +25,7 @@ export async function POST(req: NextRequest) {
     await collection.insertOne({
       title,
       content,
-      email,
+      author: session.user.email,
     });
 
     return NextResponse.json({ result: 'success' }, { status: 201 });
