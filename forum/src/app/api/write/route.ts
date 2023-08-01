@@ -3,9 +3,9 @@ import client from '@/utils/database';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
-  const { title, content } = await req.json();
+  const { title, content, email } = await req.json();
 
-  if (!title || !content) {
+  if (!title || !content || !email) {
     return NextResponse.json({ error: 'Bad request.' }, { status: 400 });
   }
 
@@ -16,6 +16,7 @@ export async function POST(req: NextRequest) {
     await collection.insertOne({
       title,
       content,
+      email,
     });
 
     return NextResponse.json({ result: 'success' }, { status: 201 });

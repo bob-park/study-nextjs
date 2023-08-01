@@ -22,8 +22,6 @@ export default async function RootLayout({
   // * server component 에서 사용 가능
   let session = await getServerSession(authOptions);
 
-  console.log(session);
-
   return (
     <html lang="en">
       <body className={inter.className}>

@@ -26,6 +26,7 @@ export default async function List() {
         contents={result.map((item) => ({
           id: item._id.toString(),
           title: item.title,
+          email: item.email,
           content: item.content,
           isRemove: false,
         }))}

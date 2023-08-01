@@ -4,15 +4,18 @@ import { useRouter } from 'next/navigation';
 
 import { ListItem } from '@/components/List';
 import { MouseEvent, useState } from 'react';
+import { getServerSession } from 'next-auth';
 
 type Post = {
   id: string;
   title: string;
+  email: string;
   content?: string;
   isRemove: boolean;
 };
 
 type PostClientProps = {
+  curruntUser?: string | null;
   contents: Post[];
 };
 
@@ -29,13 +32,20 @@ type PostClientProps = {
  * @param param0
  * @returns
  */
-export default function PostClient({ contents }: PostClientProps) {
+export default function PostClient({ contents, curruntUser }: PostClientProps) {
   const router = useRouter();
 
   const [posts, setPosts] = useState<Post[]>(contents);
 
   // handle
   const handleRemove = async (id: string, e: MouseEvent<HTMLButtonElement>) => {
+    const post = posts.find((item) => item.id === id);
+
+    if (post && post.email != curruntUser) {
+      alert('꺼져');
+      return;
+    }
+
     try {
       await fetch(`/api/post/${id}`, {
         method: 'delete',
