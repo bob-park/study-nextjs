@@ -25,7 +25,6 @@ export default function Comment({ currentEmail, postId }: CommentProps) {
     async function handleGetComments() {
       await fetch(`/api/post/${postId}/comment`)
         .then((res) => res.json())
-        .then((data) => data.result)
         .then((result) => {
           setComments(
             result.map((item: any) => ({
@@ -96,7 +95,7 @@ export default function Comment({ currentEmail, postId }: CommentProps) {
         {comments.map((item) => (
           <div
             key={`comment_${item.id}`}
-            className="m-1 p-3 border border-gray-300 rounded-xl"
+            className="m-1 p-3 bg-gray-200 rounded-xl shadow-2xl"
           >
             <div className="flex justify-between">
               <h4 className="font-bold">{item.author}</h4>

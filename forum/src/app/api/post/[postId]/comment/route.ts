@@ -68,7 +68,7 @@ export async function GET(
       .sort({ createAt: 'desc' })
       .toArray();
 
-    return NextResponse.json({ result }, { status: 201 });
+    return NextResponse.json(result, { status: 201 });
   } catch (err) {
     return NextResponse.json({ error: '서버 이상함' }, { status: 500 });
   }
