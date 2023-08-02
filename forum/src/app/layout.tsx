@@ -35,7 +35,16 @@ export default async function RootLayout({
           <Link href="/write" className="mr-[10px] text-black">
             글쓰기
           </Link>
-          {session ? <LogoutBtn username={session.user?.name} /> : <LoginBtn />}
+          {session ? (
+            <LogoutBtn username={session.user?.name} />
+          ) : (
+            <>
+              <LoginBtn />
+              <Link className="ml-[10px] text-black" href="/signup">
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
         {children}
       </body>

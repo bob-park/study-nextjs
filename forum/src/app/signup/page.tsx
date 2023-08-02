@@ -6,7 +6,8 @@ import { useRouter } from 'next/navigation';
 export default function Signup() {
   const router = useRouter();
 
-  const [userId, setUserId] = useState<string>('');
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
   // handle
@@ -14,14 +15,24 @@ export default function Signup() {
   const handleWrite = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (!name || !email || !password) {
+      return;
+    }
+
     await fetch('/api/signup', {
       method: 'post',
       body: JSON.stringify({
-        userId,
+        name,
+        email,
         password,
       }),
     })
       .then((res) => {
+        if (!res.ok) {
+          alert(res.statusText);
+          return;
+        }
+
         router.push('/list');
       })
       .catch((err) => console.error(err));
@@ -33,9 +44,16 @@ export default function Signup() {
       <form className="grid grid-col-1 gap-5" onSubmit={handleWrite}>
         <input
           className="box-border p-[10px] block mb-[10px] border"
-          value={userId}
-          placeholder="User ID"
-          onChange={(e) => setUserId(e.target.value)}
+          value={name}
+          placeholder="Name"
+          onChange={(e) => setName(e.target.value)}
+        />
+        <input
+          className="box-border p-[10px] block mb-[10px] border"
+          type="email"
+          value={email}
+          placeholder="Email"
+          onChange={(e) => setEmail(e.target.value)}
         />
         <input
           className="box-border p-[10px] block mb-[10px] border"
@@ -44,7 +62,9 @@ export default function Signup() {
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Sign Up</button>
+        <button className="bg-gray-300 p-2 rounded-lg" type="submit">
+          Sign Up
+        </button>
       </form>
     </div>
   );
