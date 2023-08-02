@@ -22,29 +22,26 @@ export default function Comment({ currentEmail, postId }: CommentProps) {
 
   // useEffect
   useEffect(() => {
-    async function getFirst() {
-      await handleGetComments();
+    async function handleGetComments() {
+      await fetch(`/api/post/${postId}/comment`)
+        .then((res) => res.json())
+        .then((data) => data.result)
+        .then((result) => {
+          setComments(
+            result.map((item: any) => ({
+              id: item._id.toString(),
+              author: item.author === currentEmail ? 'Me' : item.author,
+              comment: item.comment,
+              createAt: item.createAt,
+            })),
+          );
+        });
     }
 
-    getFirst();
-  }, []);
+    handleGetComments();
+  }, [postId, currentEmail]);
 
   // handle
-  const handleGetComments = async () => {
-    await fetch(`/api/post/${postId}/comment`)
-      .then((res) => res.json())
-      .then((data) => data.result)
-      .then((result) => {
-        setComments(
-          result.map((item: any) => ({
-            id: item._id.toString(),
-            author: item.author === currentEmail ? 'Me' : item.author,
-            comment: item.comment,
-            createAt: item.createAt,
-          })),
-        );
-      });
-  };
 
   const handleWriteComment = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
