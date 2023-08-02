@@ -74,10 +74,6 @@ export const authOptions: AuthOptions = {
     //4. jwt 만들 때 실행되는 코드
     //user변수는 DB의 유저정보담겨있고 token.user에 뭐 저장하면 jwt에 들어갑니다.
     jwt: async ({ token, user, account }) => {
-      console.log('account', account);
-      console.log('user', user);
-      console.log('token', token);
-
       if (account && user) {
         token = {};
         token.name = user.name;

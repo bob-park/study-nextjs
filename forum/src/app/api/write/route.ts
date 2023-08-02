@@ -3,7 +3,6 @@ import { getServerSession } from 'next-auth';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { getSession } from 'next-auth/react';
 
 export async function POST(req: NextRequest) {
   let session = await getServerSession(authOptions);
