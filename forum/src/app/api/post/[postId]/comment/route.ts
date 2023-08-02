@@ -34,14 +34,19 @@ export async function POST(
 
     const comments = db.collection('comments');
 
-    await comments.insertOne({
+    const newComment = {
       comment,
       parent: post._id,
       author: session.user?.email,
       createAt: new Date(),
-    });
+    };
 
-    return NextResponse.json({ result: true }, { status: 201 });
+    const insertedId = await comments.insertOne(newComment);
+
+    return NextResponse.json(
+      { ...newComment, _id: insertedId.insertedId },
+      { status: 201 },
+    );
   } catch (err) {
     return NextResponse.json({ error: '서버 이상함' }, { status: 500 });
   }

@@ -1,6 +1,7 @@
 'use client';
 
 import { FormEvent, useEffect, useState } from 'react';
+import { AiOutlineLoading } from 'react-icons/ai';
 
 import { format } from 'timeago.js';
 
@@ -42,7 +43,7 @@ export default function Comment({ currentEmail, postId }: CommentProps) {
 
   // handle
 
-  const handleWriteComment = async (e: FormEvent<HTMLFormElement>) => {
+  const handleAddComment = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     await fetch(`/api/post/${postId}/comment`, {
@@ -50,32 +51,36 @@ export default function Comment({ currentEmail, postId }: CommentProps) {
       body: JSON.stringify({
         comment,
       }),
-    }).then((res) => {
-      if (!res.ok) {
-        alert(res.statusText);
-        return;
-      }
+    })
+      .then((res) => {
+        if (!res.ok) {
+          alert(res.statusText);
+          return;
+        }
 
-      setComments((prev) => {
-        const newComments = prev.slice();
+        return res.json();
+      })
+      .then((result) => {
+        setComments((prev) => {
+          const newComments = prev.slice();
 
-        newComments.unshift({
-          id: new Date().getTime().toString(),
-          author: 'Me',
-          comment,
-          createAt: new Date(),
+          newComments.unshift({
+            id: result._id.toString(),
+            author: result.author === currentEmail ? 'Me' : result.author,
+            comment: result.comment,
+            createAt: result.createAt,
+          });
+
+          return newComments;
         });
-
-        return newComments;
+        setComment('');
       });
-      setComment('');
-    });
   };
 
   return (
     <div>
       <div className="my-[50px]">
-        <form className="flex" onSubmit={handleWriteComment}>
+        <form className="flex" onSubmit={handleAddComment}>
           <input
             className="flex-1 box-border p-[10px] block mb-[10px] border"
             placeholder="댓글"
@@ -92,20 +97,29 @@ export default function Comment({ currentEmail, postId }: CommentProps) {
       </div>
       <div>댓글 목록</div>
       <div className="grid grid-cols-1 gap-2">
-        {comments.map((item) => (
-          <div
-            key={`comment_${item.id}`}
-            className="m-1 p-3 bg-gray-200 rounded-xl shadow-2xl"
-          >
-            <div className="flex justify-between">
-              <h4 className="font-bold">{item.author}</h4>
-              <span className="text-sm text-gray-500">
-                {format(item.createAt, 'ko_KR')}
-              </span>
+        {comments.length > 0 ? (
+          comments.map((item) => (
+            <div
+              key={`comment_${item.id}`}
+              className="m-1 p-3 bg-gray-200 rounded-xl shadow-2xl"
+            >
+              <div className="flex justify-between">
+                <h4 className="font-bold">{item.author}</h4>
+                <span className="text-sm text-gray-500">
+                  {format(item.createAt, 'ko_KR')}
+                </span>
+              </div>
+              <p className="ml-[10px] text-gray-400">{item.comment}</p>
             </div>
-            <p className="ml-[10px] text-gray-400">{item.comment}</p>
+          ))
+        ) : (
+          <div className="flex justify-center text-xl font-bold mt-10 w-full h-[50px]">
+            <div>
+              <AiOutlineLoading className="animate-spin w-10 h-10 mr-5 inline" />
+              <span>로딩중</span>
+            </div>
           </div>
-        ))}
+        )}
       </div>
     </div>
   );
