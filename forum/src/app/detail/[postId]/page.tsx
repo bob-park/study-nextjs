@@ -4,6 +4,7 @@ import clientPromise from '@/utils/database';
 import Comment from './Comment';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { notFound } from 'next/navigation';
 
 /**
  *
@@ -24,6 +25,11 @@ export default async function DetailPost({
   let result = await db
     .collection('post')
     .findOne({ _id: new ObjectId(params.postId) });
+
+  // throw new Error('err');
+  if (result == null) {
+    return notFound();
+  }
 
   return (
     <div className="m-[20px]">
