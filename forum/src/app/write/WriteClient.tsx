@@ -2,7 +2,7 @@
 
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 
 type WwriteClientProps = {
   email?: string | null;
@@ -13,6 +13,7 @@ export default function WriteClient({ email }: WwriteClientProps) {
 
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
+  const [imgSrc, setImgSrc] = useState<string>('');
 
   if (!email) {
     signIn();
@@ -34,6 +35,20 @@ export default function WriteClient({ email }: WwriteClientProps) {
         router.push('/list');
       })
       .catch((err) => console.error(err));
+  };
+
+  const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+
+    if (!files) {
+      return;
+    }
+
+    const file = files[0];
+
+    const newImgSrc = URL.createObjectURL(file);
+
+    setImgSrc(newImgSrc);
   };
 
   return (
@@ -61,6 +76,15 @@ export default function WriteClient({ email }: WwriteClientProps) {
             placeholder="글 내용"
             onChange={(e) => setContent(e.target.value)}
           />
+        </div>
+        <div>
+          <input
+            className="box-border p-[10px] block mb-[10px] border rounded-xl"
+            type="file"
+            accept="image/*"
+            onChange={handleChangeImage}
+          />
+          <img className="w-[256px]" src={imgSrc} />
         </div>
         <button className="bg-gray-300 p-[10px] rounded-lg" type="submit">
           버튼
