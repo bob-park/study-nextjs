@@ -2,8 +2,9 @@
 
 import { FormEvent, useEffect, useState } from 'react';
 import { AiOutlineLoading } from 'react-icons/ai';
-
-import { format } from 'timeago.js';
+import TimeAgo from 'timeago-react';
+import * as timeago from 'timeago.js';
+import ko from 'timeago.js/lib/lang/ko';
 
 type CommentItem = {
   id: string;
@@ -17,13 +18,18 @@ type CommentProps = {
   postId: string;
 };
 
+timeago.register('ko', ko);
+
 export default function Comment({ currentEmail, postId }: CommentProps) {
+  const [loading, setLoading] = useState<boolean>(false);
   const [comments, setComments] = useState<CommentItem[]>([]);
   const [comment, setComment] = useState<string>('');
 
   // useEffect
   useEffect(() => {
     async function handleGetComments() {
+      setLoading(true);
+
       await fetch(`/api/post/${postId}/comment`)
         .then((res) => res.json())
         .then((result) => {
@@ -35,6 +41,8 @@ export default function Comment({ currentEmail, postId }: CommentProps) {
               createAt: item.createAt,
             })),
           );
+
+          setLoading(false);
         });
     }
 
@@ -97,7 +105,7 @@ export default function Comment({ currentEmail, postId }: CommentProps) {
       </div>
       <div>댓글 목록</div>
       <div className="grid grid-cols-1 gap-2">
-        {comments.length > 0 ? (
+        {!loading ? (
           comments.map((item) => (
             <div
               key={`comment_${item.id}`}
@@ -106,7 +114,7 @@ export default function Comment({ currentEmail, postId }: CommentProps) {
               <div className="flex justify-between">
                 <h4 className="font-bold">{item.author}</h4>
                 <span className="text-sm text-gray-500">
-                  {format(item.createAt, 'ko_KR')}
+                  <TimeAgo datetime={item.createAt} locale="ko" />
                 </span>
               </div>
               <p className="ml-[10px] text-gray-400">{item.comment}</p>

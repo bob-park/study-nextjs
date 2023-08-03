@@ -23,7 +23,7 @@ export default async function RootLayout({
   let session = await getServerSession(authOptions);
 
   return (
-    <html lang="en">
+    <html lang="ko">
       <body className={inter.className}>
         <div className="bg-white p-[20px]">
           <Link href="/" className="mr-[10px] font-bold text-black">

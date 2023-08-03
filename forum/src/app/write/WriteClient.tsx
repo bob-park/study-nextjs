@@ -13,6 +13,7 @@ export default function WriteClient({ email }: WwriteClientProps) {
 
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
+  const [imgFile, setImgFile] = useState<File | null>(null);
   const [imgSrc, setImgSrc] = useState<string>('');
 
   if (!email) {
@@ -24,12 +25,18 @@ export default function WriteClient({ email }: WwriteClientProps) {
   const handleWrite = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const formData = new FormData();
+
+    formData.append('title', title);
+    formData.append('content', content);
+
+    if (imgFile) {
+      formData.append('img', imgFile);
+    }
+
     await fetch('/api/write', {
       method: 'post',
-      body: JSON.stringify({
-        title,
-        content,
-      }),
+      body: formData,
     })
       .then((res) => {
         router.push('/list');
@@ -48,6 +55,7 @@ export default function WriteClient({ email }: WwriteClientProps) {
 
     const newImgSrc = URL.createObjectURL(file);
 
+    setImgFile(file);
     setImgSrc(newImgSrc);
   };
 

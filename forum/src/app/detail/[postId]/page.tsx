@@ -5,6 +5,7 @@ import Comment from './Comment';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { notFound } from 'next/navigation';
+import Image from 'next/image';
 
 /**
  *
@@ -36,6 +37,14 @@ export default async function DetailPost({
       <h4>상세 페이지 </h4>
       <h4>{result?.title}</h4>
       <p>{result?.content}</p>
+      <p>
+        <Image
+          width={256}
+          height={256}
+          src={`/api/post/${params.postId}/img`}
+          alt="img"
+        />
+      </p>
       <Comment currentEmail={session?.user?.email} postId={params.postId} />
     </div>
   );
