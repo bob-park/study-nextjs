@@ -90,13 +90,13 @@ export default function Comment({ currentEmail, postId }: CommentProps) {
       <div className="my-[50px]">
         <form className="flex" onSubmit={handleAddComment}>
           <input
-            className="flex-1 box-border p-[10px] block mb-[10px] border"
+            className="flex-1 box-border dark:bg-slate-500 p-[10px] block mb-[10px] border"
             placeholder="댓글"
             value={comment}
             onChange={(e) => setComment(e.target.value)}
           />
           <button
-            className="bg-gray-300 px-2 rounded-lg ml-[20px]"
+            className="bg-gray-300 dark:bg-slate-500 px-2 rounded-lg ml-[20px]"
             type="submit"
           >
             댓글 작성
@@ -109,11 +109,11 @@ export default function Comment({ currentEmail, postId }: CommentProps) {
           comments.map((item) => (
             <div
               key={`comment_${item.id}`}
-              className="m-1 p-3 bg-gray-200 rounded-xl shadow-2xl"
+              className="m-1 p-3 bg-gray-200 dark:bg-slate-600 rounded-xl shadow-2xl"
             >
               <div className="flex justify-between">
                 <h4 className="font-bold">{item.author}</h4>
-                <span className="text-sm text-gray-500">
+                <span className="text-sm text-gray-500 dark:text-white">
                   <TimeAgo datetime={item.createAt} locale="ko" />
                 </span>
               </div>

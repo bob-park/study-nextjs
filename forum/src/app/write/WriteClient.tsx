@@ -1,6 +1,7 @@
 'use client';
 
 import { signIn } from 'next-auth/react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, FormEvent, useState } from 'react';
 
@@ -69,7 +70,7 @@ export default function WriteClient({ email }: WwriteClientProps) {
       >
         <div>
           <input
-            className="box-border p-[10px] block mb-[10px] border rounded-xl"
+            className="box-border dark:bg-slate-600 p-[10px] block mb-[10px] border rounded-xl"
             type="text"
             value={title}
             placeholder="글 제목"
@@ -78,7 +79,7 @@ export default function WriteClient({ email }: WwriteClientProps) {
         </div>
         <div>
           <input
-            className="box-border p-[10px] block mb-[10px] border rounded-xl"
+            className="box-border dark:bg-slate-600 p-[10px] block mb-[10px] border rounded-xl"
             type="text"
             value={content}
             placeholder="글 내용"
@@ -92,9 +93,12 @@ export default function WriteClient({ email }: WwriteClientProps) {
             accept="image/*"
             onChange={handleChangeImage}
           />
-          <img className="w-[256px]" src={imgSrc} />
+          {imgSrc && <Image width={256} height={256} src={imgSrc} alt="img" />}
         </div>
-        <button className="bg-gray-300 p-[10px] rounded-lg" type="submit">
+        <button
+          className="bg-gray-300 dark:bg-slate-500 p-[10px] rounded-lg"
+          type="submit"
+        >
           버튼
         </button>
       </form>

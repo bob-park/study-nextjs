@@ -30,14 +30,14 @@ function ListItem(props: ListItemProps & React.HTMLAttributes<HTMLDivElement>) {
     <div
       {...{
         onClick: props.onClick,
-        className: `bg-white rounded-md p-[10px] mb-[5px] shadow-sm shadow-white ${props.className}`,
+        className: `bg-white dark:bg-slate-600 rounded-md p-[10px] mb-[5px] shadow-sm shadow-white ${props.className}`,
       }}
     >
       <h4 className="text-xl font-extrabold">{props.title}</h4>
       <p className="text-gray-400 my-[5px]">{props.content}</p>
       {onEdit && (
         <button
-          className="p-[10px] bg-gray-300 rounded-lg"
+          className="p-[10px] bg-gray-300 dark:bg-slate-500 rounded-lg"
           onClick={handleEdit}
         >
           EDIT
@@ -45,7 +45,7 @@ function ListItem(props: ListItemProps & React.HTMLAttributes<HTMLDivElement>) {
       )}
       {onRemove && (
         <button
-          className="ml-[10px] p-[10px] bg-red-400 rounded-lg"
+          className="ml-[10px] p-[10px] bg-red-400 dark:bg-red-800 rounded-lg"
           onClick={handleRemove}
         >
           REMOVE

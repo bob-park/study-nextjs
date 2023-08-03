@@ -1,13 +1,12 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { cookies } from 'next/headers';
 import Link from 'next/link';
 import LoginBtn from './LoginBtn';
 import { getServerSession } from 'next-auth';
 import { authOptions } from './api/auth/[...nextauth]/route';
 import LogoutBtn from './LogoutBtn';
-
-const inter = Inter({ subsets: ['latin'] });
+import ThemeBtn from './ThemeBtn';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -22,17 +21,19 @@ export default async function RootLayout({
   // * server component 에서 사용 가능
   let session = await getServerSession(authOptions);
 
+  const dark = cookies().get('dark')?.value === 'true';
+
   return (
-    <html lang="ko">
-      <body className={inter.className}>
-        <div className="bg-white p-[20px]">
-          <Link href="/" className="mr-[10px] font-bold text-black">
+    <html lang="ko" className={`${dark && 'dark'}`}>
+      <body className="bg-white dark:bg-slate-800 dark:text-white">
+        <div className="flex gap-5 justify-items-center text-center items-center  p-[20px]">
+          <Link href="/" className="mr-[10px] font-bold ">
             Appleforum
           </Link>
-          <Link href="/list" className="mr-[10px] text-black">
+          <Link href="/list" className="mr-[10px] ">
             List
           </Link>
-          <Link href="/write" className="mr-[10px] text-black">
+          <Link href="/write" className="mr-[10px] ">
             글쓰기
           </Link>
           {session ? (
@@ -40,11 +41,13 @@ export default async function RootLayout({
           ) : (
             <>
               <LoginBtn />
-              <Link className="ml-[10px] text-black" href="/signup">
+              <Link className="ml-[10px] " href="/signup">
                 Sign Up
               </Link>
             </>
           )}
+
+          <ThemeBtn dark={dark || false} />
         </div>
         {children}
       </body>
