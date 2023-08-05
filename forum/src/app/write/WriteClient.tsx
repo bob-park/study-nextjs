@@ -17,10 +17,11 @@ export default function WriteClient({ email }: WwriteClientProps) {
   const [imgFile, setImgFile] = useState<File | null>(null);
   const [imgSrc, setImgSrc] = useState<string>('');
 
-  if (!email) {
-    signIn();
-    return;
-  }
+  // middleware 로 이동
+  // if (!email) {
+  //   signIn();
+  //   return;
+  // }
 
   // handle
   const handleWrite = async (e: FormEvent<HTMLFormElement>) => {
